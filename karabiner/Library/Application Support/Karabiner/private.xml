@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<root>
+	<appdef>
+		<appname>TERMINAL</appname>
+		<equal>com.apple.Terminal</equal>
+	</appdef>
+	<appdef>
+		<appname>MINECRAFT</appname>
+		<equal>net.java.openjdk.cmd</equal>
+	</appdef>
+	<appdef>
+		<appname>FIREFOX</appname>
+		<equal>org.mozilla.firefox</equal>
+	</appdef>
+
+
+	<deviceproductdef>
+		<productname>LOGITECH_MX518</productname>
+		<productid>0xc051</productid>
+	</deviceproductdef>
+
+
+	<item>
+		<name>External keyboard modifier keys location</name>
+		<appendix>Move modifier keys around to same places as on internal keyboard</appendix>
+		<identifier>private.external_keyboard_fixes</identifier>
+		<device_not>DeviceVendor::APPLE_COMPUTER, DeviceProduct::ANY</device_not>
+		<autogen>
+			__KeyToKey__
+			KeyCode::CONTROL_L,
+			KeyCode::CONTROL_L
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::OPTION_L,
+			KeyCode::COMMAND_L
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::COMMAND_L,
+			KeyCode::OPTION_L
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::DANISH_DOLLAR, ModifierFlag::OPTION_R | ModifierFlag::NONE,
+			KeyCode::7, ModifierFlag::OPTION_R
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::DANISH_DOLLAR,
+			KeyCode::BACKQUOTE
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::BACKQUOTE,
+			KeyCode::DANISH_DOLLAR
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::PC_APPLICATION,
+			KeyCode::FN
+		</autogen>
+	</item>
+	<item>
+		<name>External keyboard HOME and END</name>
+		<appendix>Emulate how home and end works on PC keyboards</appendix>
+		<identifier>private.external_keyboard_home_end</identifier>
+		<device_not>DeviceVendor::APPLE_COMPUTER, DeviceProduct::ANY</device_not>
+		<autogen>
+			__KeyToKey__
+			KeyCode::HOME,
+			KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_L
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::END,
+			KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_L
+		</autogen>
+	</item>
+	<item>
+		<name>External keyboard F-keys as consumer keys</name>
+		<appendix>Makes F-keys on the external keyboard allow brightness, keyboard backlight, media and volume control</appendix>
+		<identifier>private.external_keyboard_fkeys</identifier>
+		<device_not>DeviceVendor::APPLE_COMPUTER, DeviceProduct::ANY</device_not>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F1,
+			ConsumerKeyCode::BRIGHTNESS_DOWN
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F2,
+			ConsumerKeyCode::BRIGHTNESS_UP
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F5,
+			ConsumerKeyCode::KEYBOARDLIGHT_LOW
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F6,
+			ConsumerKeyCode::KEYBOARDLIGHT_HIGH
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F7,
+			ConsumerKeyCode::MUSIC_PREV
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F8,
+			ConsumerKeyCode::MUSIC_PLAY
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F9,
+			ConsumerKeyCode::MUSIC_NEXT
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F10,
+			ConsumerKeyCode::VOLUME_MUTE
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F11,
+			ConsumerKeyCode::VOLUME_DOWN
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::F12,
+			ConsumerKeyCode::VOLUME_UP
+		</autogen>
+	</item>
+	<item>
+		<name>Pipe left of Z</name>
+		<appendix>Alt+&lt; becomes pipe</appendix>
+		<identifier>private.extra_pipe</identifier>
+		<autogen>
+			__KeyToKey__
+			KeyCode::BACKQUOTE, ModifierFlag::OPTION_R,
+			KeyCode::7, ModifierFlag::OPTION_R
+		</autogen>
+	</item>
+	<item>
+		<name>PC curly braces</name>
+		<appendix>Alt+7 becomes { and Alt+0 becomes }</appendix>
+		<identifier>private.pc_braces</identifier>
+		<autogen>
+			__KeyToKey__
+			KeyCode::7, ModifierFlag::OPTION_R | ModifierFlag::NONE,
+			KeyCode::8, ModifierFlag::OPTION_R | ModifierFlag::SHIFT_R
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			KeyCode::0, ModifierFlag::OPTION_R | ModifierFlag::NONE,
+			KeyCode::9, ModifierFlag::OPTION_R | ModifierFlag::SHIFT_R
+		</autogen>
+	</item>
+	<item>
+		<name>PC backslash</name>
+		<appendix>Right Alt++ becomes backslash(\)</appendix>
+		<identifier>private.pc_backslash</identifier>
+		<autogen>
+			__KeyToKey__
+			KeyCode::MINUS, ModifierFlag::OPTION_R | ModifierFlag::NONE,
+			KeyCode::7, ModifierFlag::OPTION_R | ModifierFlag::SHIFT_R
+		</autogen>
+	</item>
+	<item>
+		<name>Back and forward buttons rebind for Minecraft</name>
+		<appendix>Button on the left side of MX518</appendix>
+		<identifier>private.gaming_mouse</identifier>
+		<only>MINECRAFT</only>
+		<device_only>DeviceVendor::LOGITECH, DeviceProduct::LOGITECH_MX518</device_only>
+		<autogen>
+			__KeyToKey__
+			PointingButton::BUTTON4,
+			KeyCode::K
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			PointingButton::BUTTON5,
+			KeyCode::L
+		</autogen>
+	</item>
+	<item>
+		<name>Back and forward buttons rebind for Firefox</name>
+		<appendix>Button on the left side of MX518</appendix>
+		<identifier>private.mx518.firefox</identifier>
+		<only>FIREFOX</only>
+		<device_only>DeviceVendor::LOGITECH, DeviceProduct::LOGITECH_MX518</device_only>
+		<autogen>
+			__KeyToKey__
+			PointingButton::BUTTON4,
+			KeyCode::CURSOR_LEFT, ModifierFlag::COMMAND_L
+		</autogen>
+		<autogen>
+			__KeyToKey__
+			PointingButton::BUTTON5,
+			KeyCode::CURSOR_RIGHT, ModifierFlag::COMMAND_L
+		</autogen>
+	</item>
+	<item>
+		<name>Left alt as meta key in Terminal</name>
+		<identifier>private.left_alt_terminal_meta</identifier>
+		<only>TERMINAL</only>
+		<autogen>__KeyToKey__ KeyCode::OPTION_L, KeyCode::VK_MODIFIER_EXTRA1</autogen>
+		<include path="{{ ENV_Karabiner_Resources }}/include/checkbox/apps/terminal/meta_modifier_key.xml">
+			<replacementdef>
+				<replacementname>BEFORE</replacementname>
+				<replacementvalue>KeyCode::ESCAPE</replacementvalue>
+			</replacementdef>
+			<replacementdef>
+				<replacementname>AFTER</replacementname>
+				<replacementvalue></replacementvalue>
+			</replacementdef>
+        </include>
+	</item>
+
+</root>

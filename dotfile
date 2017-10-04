@@ -1,0 +1,14 @@
+#!/bin/bash
+# Change working directory to script directory
+cd "${0%/*}"
+
+stow -v -t "$HOME" --ignore=dotfile_setup --no-folding "$@"
+
+for package in "$@"; do
+	if [ -x "$package/dotfile_setup" ]; then
+		echo "Running dotfile_setup for $package"
+		cd "$package"
+		./dotfile_setup
+		cd ..
+	fi
+done

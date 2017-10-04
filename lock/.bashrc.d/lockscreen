@@ -1,0 +1,7 @@
+#!/bin/bash
+if [ $(uname) == "Linux" ]; then
+	# TODO: Add Linux support
+	echo "Unsupported"
+elif [ $(uname) == "Darwin" ]; then
+	alias lock='/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend'
+fi

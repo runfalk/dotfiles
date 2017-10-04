@@ -1,0 +1,113 @@
+#!/bin/bash
+client_id="okm93of9cqizh56rtldqovvbd2edwp3"
+
+# Print bookmark file to STDOUT. One stream per line
+_twitch_bookmarks() {
+	bookmarks_file="$HOME/.config/twitch-bookmarks"
+	if [ ! -f "$bookmarks_file" ]; then
+		echo "No $bookmarks_file found" 2>&1
+		return 1
+	fi
+	cat "$bookmarks_file"
+	return 0
+}
+
+# Make api call to twitch using cURL
+_twitch_call() {
+	curl \
+		-# \
+		-H "Accept: application/vnd.twitchtv.v3.json" \
+		-H "Client-Id: $client_id" \
+		-X GET \
+		"https://api.twitch.tv/kraken/$1"
+	return 0
+}
+
+_twitch_extract_streams() {
+	python -c 'import sys, re; d = sys.stdin.read(); m = re.search("Available streams: ([^\n]+)", d); print("\n".join(s.split(" ")[0] for s in m.group(1).split(", ")))'
+}
+
+twitch() {
+	# Display graphical interface if no stream was provided
+	if [ "$1" == "" ]; then
+		# Make comma separated list of streams to use in API call
+		channels=$(_twitch_bookmarks|xargs|tr ' ' ,)
+
+		twitch_args="streams?channel=$channels"
+		jshon_args='-e streams -a -e channel -e name -u -p -e status -u'
+
+		streams=$(_twitch_call "$twitch_args"|jshon $jshon_args|paste -s -d "\t\n" -|sort -f)
+
+		# Prepare list of streams as menu options
+		options=()
+		while read -r line; do
+			options+=("$(echo "$line"|cut -f1)")
+			options+=("$(echo "$line"|cut -f2)")
+		done <<< "$streams"
+
+		# Display menu of online streams
+		selected_stream=$(dialog \
+			--menu "Select stream:" 22 76 16 \
+			"${options[@]}" \
+			2>&1 >/dev/tty)
+
+		# Clear output to hide menu
+		clear
+
+		# Error out if no stream was selected
+		if [ "$selected_stream" == "" ]; then
+			echo "No stream selected" 2>&1
+			return 2
+		fi
+	else
+		# Desired stream was provided as an argument
+		selected_stream="$1"
+	fi
+
+	# Determine quality based on arguments or default to "best"
+	quality="best"
+	if [ "$2" != "" ]; then
+		quality="$2"
+	fi
+
+	# Try selecting quality, and if that does not work display a menu
+	streamlink \
+		--http-header "Client-ID=$client_id" \
+		"twitch.tv/$selected_stream" "$quality"
+
+	if [ "$?" == "1" ]; then
+		# Find available quality selections
+		qualities=$(streamlink \
+			--http-header "Client-ID=$client_id" \
+			"twitch.tv/$selected_stream"|_twitch_extract_streams)
+
+		options=()
+		while read -r line; do
+			options+=("$line")
+			options+=("$line")
+		done <<< "$qualities"
+
+		quality=$(dialog \
+			--menu "Select quality:" 22 76 16 \
+			"${options[@]}" \
+			2>&1 >/dev/tty)
+
+		# Clear output to hide menu
+		clear
+
+		streamlink \
+			--http-header "Client-ID=$client_id" \
+			"twitch.tv/$selected_stream" "$quality"
+	fi
+}
+
+# Auto complete for twitch command
+_twitch() {
+	local current=${COMP_WORDS[COMP_CWORD]}
+	if [ "$COMP_CWORD" -eq "2" ]; then
+		COMPREPLY=( $(compgen -W "audio mobile low medium high source" -- $current) )
+	else
+		COMPREPLY=( $(compgen -W "$(_twitch_bookmarks|xargs)" -- $current) )
+	fi
+}
+complete -F _twitch twitch

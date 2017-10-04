@@ -1,0 +1,8 @@
+#!/bin/bash
+# Add Sublime text 3 shorthand on macOS
+if [ $(uname) == "Darwin" ]; then
+	sublime_path="/Applications/Sublime Text.app"
+	if [ -d "$sublime_path" ]; then
+		PATH="$PATH:$sublime_path/Contents/SharedSupport/bin"
+	fi
+fi
