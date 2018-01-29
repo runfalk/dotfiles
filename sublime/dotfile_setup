@@ -1,3 +1,9 @@
 #!/bin/bash
-set +x
-ln -s "$HOME/.config/sublime-text-3" "$HOME/Library/Application Support/Sublime Text 3"
+if [ $(uname) == "Darwin" ]; then
+	mac_subl_dir="$HOME/Library/Application Support/Sublime Text 3"
+	if [ -d "$mac_subl_dir" ]; then
+		read -p "I found $mac_subl_dir already exists, press Enter to remove or Ctrl+C to abort"
+		rm -rf "$mac_subl_dir"
+	fi
+	ln -s "$HOME/.config/sublime-text-3" "$mac_subl_dir"
+fi

@@ -8,6 +8,8 @@
 		"EditorConfig",
 		"Jedi - Python autocompletion",
 		"Package Control",
+		"PlatformSettings",
+		"Sass",
 		"Simple JSX"
 	]
 }

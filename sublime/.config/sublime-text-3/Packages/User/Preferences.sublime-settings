@@ -30,5 +30,8 @@
 	],
 	"scroll_past_end": true,
 	"show_encoding": true,
-	"trim_trailing_white_space_on_save": true
+	"trim_trailing_white_space_on_save": true,
+	"osx": {
+		"font_size": 12
+	}
 }
