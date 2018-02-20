@@ -21,6 +21,10 @@
 	],
 	"line_numbers": true,
 	"open_files_in_new_window": false,
+	"osx":
+	{
+		"font_size": 11
+	},
 	"overlay_scroll_bars": "enabled",
 	"remember_open_files": false,
 	"rulers":
@@ -30,8 +34,5 @@
 	],
 	"scroll_past_end": true,
 	"show_encoding": true,
-	"trim_trailing_white_space_on_save": true,
-	"osx": {
-		"font_size": 12
-	}
+	"trim_trailing_white_space_on_save": true
 }
