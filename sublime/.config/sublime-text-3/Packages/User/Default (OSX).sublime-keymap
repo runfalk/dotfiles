@@ -1,0 +1,10 @@
+[
+	{ "keys": ["ctrl+s"], "command": "save" },
+	{ "keys": ["ctrl+d"], "command": "find_under_expand" },
+	{ "keys": ["ctrl+x"], "command": "cut" },
+	{ "keys": ["ctrl+c"], "command": "copy" },
+	{ "keys": ["ctrl+v"], "command": "paste" },
+	{ "keys": ["ctrl+w"], "command": "close" },
+	{ "keys": ["ctrl+shift+d"], "command": "duplicate_line" },
+	{ "keys": ["ctrl+shift+7"], "command": "toggle_comment", "args": { "block": false } }
+]
