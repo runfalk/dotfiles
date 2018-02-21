@@ -7,7 +7,7 @@ fi
 mkdir -p "$HOME/.vim/swapfiles"
 
 venv_dir="$HOME/.vim/python3-venv"
-if [ -d "$venv_dir" ]; then
+if [ ! -d "$venv_dir" ]; then
     virtualenv --python=python3 --prompt="(vim)" "$venv_dir"
     "$venv_dir/bin/pip" install --upgrade pip setuptools
     "$venv_dir/bin/pip" install neovim jedi
