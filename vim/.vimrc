@@ -20,11 +20,10 @@ call plug#end()
 " Look and theme
 syntax on  " Syntax highlighting
 set number  " Line numbering
-colorscheme molokai  " Color scheme (from aweome-vim colorschemes)
+colorscheme gruvbox  " Color scheme (from aweome-vim colorschemes)
+set background=dark  " Force dark mode
 set colorcolumn=80,120  " Helpful rulers
-" set fillchars+=vert:│  " Fix ugly vertical separator
-set fillchars+=vert:▌  " Fix ugly vertical separator
-hi VertSplit ctermfg=233 ctermbg=236  " Trick to hide window separator
+set fillchars+=vert:│  " Fix ugly vertical separator
 set hlsearch  " Highlight search results
 set incsearch  " Interactive highlight for search
 
@@ -63,7 +62,7 @@ endif
 
 " Airline statusbar configuration
 set noshowmode  " Don't show mode in command bar
-let g:airline_theme = "molokai"
+let g:airline_theme = "gruvbox"
 let g:airline_powerline_fonts = 1  " Requires Nerd fonts
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = "unique_tail_improved"
