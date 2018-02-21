@@ -3,8 +3,12 @@ set nocompatible  " be iMproved, required
 
 " Plugins (must use single quotes)
 call plug#begin()
+Plug 'editorconfig/editorconfig-vim'
+Plug 'lyuts/vim-rtags'
 Plug 'mbbill/undotree'
 Plug 'mkitt/tabline.vim'
+Plug 'othree/eregex.vim'
+Plug 'qpkorr/vim-bufkill'
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'scrooloose/nerdtree'
 Plug 'terryma/vim-multiple-cursors'
@@ -18,7 +22,11 @@ syntax on  " Syntax highlighting
 set number  " Line numbering
 colorscheme molokai  " Color scheme (from aweome-vim colorschemes)
 set colorcolumn=80,120  " Helpful rulers
-set fillchars+=vert:│  " Fix ugly vertical separator
+" set fillchars+=vert:│  " Fix ugly vertical separator
+set fillchars+=vert:▌  " Fix ugly vertical separator
+hi VertSplit ctermfg=233 ctermbg=236  " Trick to hide window separator
+set hlsearch  " Highlight search results
+set incsearch  " Interactive highlight for search
 
 
 " Basic functionality
@@ -26,6 +34,8 @@ set backspace=indent,eol,start  " Make backspace sensible
 set mouse=a  " Mouse support
 set wildmode=longest,list,full  " Fuzzy complete
 set wildmenu  " Fuzzy complete
+set expandtab  " Tab is spaces
+set tabstop=4 shiftwidth=4 softtabstop=4  " Tab is 4 spaces
 
 " Show whitespace at EOL
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -33,7 +43,7 @@ autocmd BufWinEnter,InsertLeave * match ExtraWhitespace /\s\+$/
 
 " Some NeoVim specific settings
 if has("nvim")
-    set guicursor=  " Re-enable block cursor
+    set guicursor=  " Fix slim cursor on insert mode
 endif
 
 
@@ -45,17 +55,29 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " Change NERDTree directory when changing :pwd (requires Vim 8.0.1459)
-" autocmd DirChanged global :NERDTreeCWD<CR>
+if exists("##DirChanged")
+    autocmd DirChanged global :NERDTreeCWD<CR>
+endif
 
 
 " Airline statusbar configuration
-set noshowmode  " Don"t show mode in command bar
+set noshowmode  " Don't show mode in command bar
 let g:airline_theme = "molokai"
 let g:airline_powerline_fonts = 1  " Requires Nerd fonts
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#formatter = "unique_tail_improved"
 let g:airline_section_z = "%#__accent_bold#%{g:airline_symbols.linenr} %l/%L%#__restore__# (%v)"
 
+
+" RTags configuration
+let g:rtagsUseDefaultMappings = 0
+noremap <F2> :call rtags#JumpTo(g:V_SPLIT)<CR>
+noremap <F3> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
+noremap <F4> :call rtags#FindVirtuals()<CR>
+
+
+" Leader
+let mapleader = "-"
 
 " Alt+Left/Right navigation for windows
 nnoremap <silent> <A-Left> :wincmd h<CR>
