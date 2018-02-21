@@ -36,6 +36,7 @@ set wildmode=longest,list,full  " Fuzzy complete
 set wildmenu  " Fuzzy complete
 set expandtab  " Tab is spaces
 set tabstop=4 shiftwidth=4 softtabstop=4  " Tab is 4 spaces
+set directory=~/.vim/swapfiles//  " Put swapfiles in a better place
 
 " Show whitespace at EOL
 highlight ExtraWhitespace ctermbg=red guibg=red
@@ -71,9 +72,6 @@ let g:airline_section_z = "%#__accent_bold#%{g:airline_symbols.linenr} %l/%L%#__
 
 " RTags configuration
 let g:rtagsUseDefaultMappings = 0
-noremap <F2> :call rtags#JumpTo(g:V_SPLIT)<CR>
-noremap <F3> :call rtags#JumpTo(g:SAME_WINDOW)<CR>
-noremap <F4> :call rtags#FindVirtuals()<CR>
 
 
 " Leader
