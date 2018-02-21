@@ -11,7 +11,7 @@
 		"CVS",
 		"__pycache__"
 	],
-	"font_size": 10,
+	"font_size": 9,
 	"highlight_line": true,
 	"highlight_modified_tabs": true,
 	"hot_exit": false,
@@ -34,5 +34,6 @@
 	],
 	"scroll_past_end": true,
 	"show_encoding": true,
-	"trim_trailing_white_space_on_save": true
+	"trim_trailing_white_space_on_save": true,
+	"index_files": false
 }
