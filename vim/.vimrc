@@ -70,7 +70,9 @@ let g:airline_section_z = "%#__accent_bold#%{g:airline_symbols.linenr} %l/%L%#__
 
 " FZF
 command! -bang FZFHidden
-  \ call fzf#run(fzf#wrap("find-hidden", {"source": "find . -not \\( -name .git -prune \\) -type f -print 2> /dev/null"}, <bang>0))
+    \ call fzf#run(fzf#wrap("find-hidden", {"source": "find . -not \\( -name .git -prune \\) -type f -print 2> /dev/null"}, <bang>0))
+command! Buffers call fzf#run(fzf#wrap(
+    \ {"source": filter(map(range(1, bufnr("$")), "bufname(v:val)"), "v:val != ''")}))
 let g:fzf_action = {"ctrl-v": "vsplit"}
 let g:fzf_layout = {"down": "~30%"}
 
