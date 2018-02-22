@@ -3,20 +3,21 @@ set nocompatible  " be iMproved, required
 
 " Plugins (must use single quotes)
 call plug#begin()
-Plug 'editorconfig/editorconfig-vim'
+Plug 'junegunn/fzf', { 'dir': '~/.vim/fzf', 'do': './install --bin' }
 Plug 'lyuts/vim-rtags'
 Plug 'mbbill/undotree'
 Plug 'mkitt/tabline.vim'
 Plug 'othree/eregex.vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'rafi/awesome-vim-colorschemes'
-Plug 'scrooloose/nerdtree'
+Plug 'sgur/vim-editorconfig'
 Plug 'sheerun/vim-polyglot'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+" Deoplete support
 if has("nvim")
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 else
@@ -58,18 +59,6 @@ if has("nvim")
 endif
 
 
-" NERDTree settings
-let NERDTreeIgnore = ["\.py[co]$"]
-let g:NERDTreeMouseMode = 3  " Allow single clicks to open folders
-
-" Open NERDTree when passing a directory as argument to Vim
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe "NERDTree" argv()[0] | wincmd p | ene | endif
-
-" Close Vim when NERDTree is the only active buffer
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-
 " Airline statusbar configuration
 set noshowmode  " Don't show mode in command bar
 let g:airline_theme = "gruvbox"
@@ -79,11 +68,34 @@ let g:airline#extensions#tabline#formatter = "unique_tail_improved"
 let g:airline_section_z = "%#__accent_bold#%{g:airline_symbols.linenr} %l/%L%#__restore__# (%v)"
 
 
+" FZF
+command! -bang FZFHidden
+  \ call fzf#run(fzf#wrap("find-hidden", {"source": "find . -not \\( -name .git -prune \\) -type f -print 2> /dev/null"}, <bang>0))
+let g:fzf_action = {"ctrl-v": "vsplit"}
+let g:fzf_layout = {"down": "~30%"}
+
+" Make FZF respect current theme
+let g:fzf_colors =
+\ { "fg":      ["fg", "Normal"],
+  \ "bg":      ["bg", "Normal"],
+  \ "hl":      ["fg", "Comment"],
+  \ "fg+":     ["fg", "CursorLine", "CursorColumn", "Normal"],
+  \ "bg+":     ["bg", "CursorLine", "CursorColumn"],
+  \ "hl+":     ["fg", "Statement"],
+  \ "info":    ["fg", "PreProc"],
+  \ "border":  ["fg", "Ignore"],
+  \ "prompt":  ["fg", "Conditional"],
+  \ "pointer": ["fg", "Exception"],
+  \ "marker":  ["fg", "Keyword"],
+  \ "spinner": ["fg", "Label"],
+  \ "header":  ["fg", "Comment"] }
+
+
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 
 
-" RTags configuration
+" RTags configuration (key bindings in cpp.vim)
 let g:rtagsUseDefaultMappings = 0
 
 
