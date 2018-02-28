@@ -19,6 +19,7 @@
 	[
 		"Vintage"
 	],
+	"index_files": false,
 	"line_numbers": true,
 	"open_files_in_new_window": false,
 	"osx":
@@ -34,6 +35,5 @@
 	],
 	"scroll_past_end": true,
 	"show_encoding": true,
-	"trim_trailing_white_space_on_save": true,
-	"index_files": false
+	"trim_trailing_white_space_on_save": true
 }
