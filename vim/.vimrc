@@ -1,9 +1,13 @@
 set encoding=utf-8  " Use sensible encoding (fixes pasting of unicode)
 set nocompatible  " Disable Vi compatibility
 
+" Set suda prefix before loading the module
+let g:suda#prefix = "sudo://"
+
 " Plugins (must use single quotes)
 call plug#begin()
 Plug 'junegunn/fzf', { 'dir': '~/.vim/fzf', 'do': './install --bin' }
+Plug 'lambdalisue/suda.vim'
 Plug 'lyuts/vim-rtags'
 Plug 'mbbill/undotree'
 Plug 'othree/eregex.vim'
@@ -96,7 +100,6 @@ call s:CommandAbbreviation("open", "FZFFiles")
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 
-
 " Fix multiple cursors conflict with Deoplete
 function! Multiple_cursors_before()
     let g:deoplete#disable_auto_complete = 1
@@ -104,6 +107,15 @@ endfunction
 function! Multiple_cursors_after()
     let g:deoplete#disable_auto_complete = 0
 endfunction
+
+
+" Multi cursor editing (Sublime style)
+let g:multi_cursor_use_default_mapping = 0
+let g:multi_cursor_next_key = "<C-d>"
+let g:multi_cursor_prev_key = "<C-S-d>"
+let g:multi_cursor_skip_key = "<C-A-d>"
+let g:multi_cursor_quit_key = "<esc>"
+
 
 " RTags configuration (key bindings in cpp.vim)
 let g:rtagsUseDefaultMappings = 0
@@ -124,9 +136,3 @@ nnoremap <silent> <C-z> :UndotreeToggle<CR>
 " Clear search highlighting
 nmap <silent> <C-c> :let@/=""<CR>
 
-" Multi cursor editing (Sublime style)
-let g:multi_cursor_use_default_mapping = 0
-let g:multi_cursor_next_key = "<C-d>"
-let g:multi_cursor_prev_key = "<C-S-d>"
-let g:multi_cursor_skip_key = "<C-A-d>"
-let g:multi_cursor_quit_key = "<esc>"
