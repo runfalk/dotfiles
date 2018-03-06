@@ -136,3 +136,7 @@ nnoremap <silent> <C-z> :UndotreeToggle<CR>
 " Clear search highlighting
 nmap <silent> <C-c> :let@/=""<CR>
 
+" Map FZF things to key bindings
+nnoremap <silent> <leader>s :FZFBuffers<CR>
+nnoremap <silent> <leader>d :FZFDefinitions<CR>
+nnoremap <silent> <leader>f :FZFFiles<CR>
