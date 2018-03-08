@@ -122,7 +122,7 @@ let g:rtagsUseDefaultMappings = 0
 
 
 " Leader
-let mapleader = "-"
+let mapleader = " "
 
 " Alt+Left/Right/Up/Down navigation for windows
 nnoremap <silent> <A-Left> :wincmd h<CR>
@@ -136,7 +136,19 @@ nnoremap <silent> <C-z> :UndotreeToggle<CR>
 " Clear search highlighting
 nmap <silent> <C-c> :let@/=""<CR>
 
+" Make Home key respect indenting
+function! ExtendedHome()
+    let column = col('.')
+    normal! ^
+    if column == col('.')
+        normal! 0
+    endif
+endfunction
+noremap <silent> <Home> :call ExtendedHome()<CR>
+inoremap <silent> <Home> <C-O>:call ExtendedHome()<CR>
+
 " Map FZF things to key bindings
 nnoremap <silent> <leader>s :FZFBuffers<CR>
 nnoremap <silent> <leader>d :FZFDefinitions<CR>
 nnoremap <silent> <leader>f :FZFFiles<CR>
+nnoremap <silent> <leader>g :FZFGitFiles<CR>
