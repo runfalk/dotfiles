@@ -6,6 +6,7 @@ let g:suda#prefix = "sudo://"
 
 " Plugins (must use single quotes)
 call plug#begin()
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 Plug 'junegunn/fzf', { 'dir': '~/.vim/fzf', 'do': './install --bin' }
 Plug 'lambdalisue/suda.vim'
 Plug 'lyuts/vim-rtags'
@@ -120,6 +121,10 @@ let g:multi_cursor_quit_key = "<esc>"
 " RTags configuration (key bindings in cpp.vim)
 let g:rtagsUseDefaultMappings = 0
 
+let g:LanguageClient_serverCommands = {
+\   "rust": ["rustup", "run", "stable", "rls"],
+\}
+
 
 " Leader
 let mapleader = " "
@@ -136,11 +141,15 @@ nnoremap <silent> <C-z> :UndotreeToggle<CR>
 " Clear search highlighting
 nmap <silent> <C-c> :let@/=""<CR>
 
+" Make search center selection vertically
+nnoremap <silent> N Nzz
+nnoremap <silent> n nzz
+
 " Make Home key respect indenting
 function! ExtendedHome()
-    let column = col('.')
+    let column = col(".")
     normal! ^
-    if column == col('.')
+    if column == col(".")
         normal! 0
     endif
 endfunction
@@ -152,3 +161,8 @@ nnoremap <silent> <leader>s :FZFBuffers<CR>
 nnoremap <silent> <leader>d :FZFDefinitions<CR>
 nnoremap <silent> <leader>f :FZFFiles<CR>
 nnoremap <silent> <leader>g :FZFGitFiles<CR>
+
+" Map language server hotkeys
+nnoremap <silent> <leader>i :call LanguageClient_textDocument_hover()<CR>
+nnoremap <silent> <leader>o :call LanguageClient_textDocument_definition()<CR>
+nnoremap <silent> <leader>u :call LanguageClient_textDocument_references({}, [function("RefTest")])<CR>
