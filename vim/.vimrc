@@ -122,6 +122,7 @@ let g:multi_cursor_quit_key = "<esc>"
 let g:rtagsUseDefaultMappings = 0
 
 let g:LanguageClient_serverCommands = {
+\   "dart": [expand("~/.pub-cache/bin/dart_language_server")],
 \   "rust": ["rustup", "run", "stable", "rls"],
 \}
 
