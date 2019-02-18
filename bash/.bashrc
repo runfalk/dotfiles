@@ -15,7 +15,11 @@ if [ $(uname) == "Linux" ]; then
 
 	# Add auto-complete support
 	if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-	    . /etc/bash_completion
+		# Ubuntu
+		. /etc/bash_completion
+	elif [ -f /etc/profile.d/bash_completion.sh ]; then
+		# Fedora
+		. /etc/profile.d/bash_completion.sh
 	fi
 elif [ $(uname) == "Darwin" ]; then
 	# Add default linux style colors to macOS
