@@ -21,6 +21,10 @@ if [ $(uname) == "Linux" ]; then
 		# Fedora
 		. /etc/profile.d/bash_completion.sh
 	fi
+
+    # Ensure the terminal listens to window resizing. If this is not set there
+    # is a weird line wrap bug on some platforms
+    shopt -s checkwinsize
 elif [ $(uname) == "Darwin" ]; then
 	# Add default linux style colors to macOS
 	export CLICOLOR="1"
