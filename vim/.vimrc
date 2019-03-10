@@ -36,7 +36,7 @@ call plug#end()
 " Look and theme
 syntax on  " Syntax highlighting
 set number  " Line numbering
-colorscheme gruvbox  " Color scheme (from aweome-vim colorschemes)
+silent! colorscheme gruvbox  " Color scheme (from aweome-vim colorschemes)
 set background=dark  " Force dark mode
 highlight! link String GruvboxYellow
 set colorcolumn=80,120  " Helpful rulers
