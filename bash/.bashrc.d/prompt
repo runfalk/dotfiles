@@ -3,6 +3,11 @@
 base_prompt='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]'
 
 # Add Git branch information if available
+git_prompt_sh="/usr/share/git-core/contrib/completion/git-prompt.sh"
+if [ "$(type -t __git_ps1)" != "function" -a -f "$git_prompt_sh" ]; then
+    # On fedora we need to load this ourselves
+    source "$git_prompt_sh"
+fi
 if [ "$(type -t __git_ps1)" = "function" ]; then
 	base_prompt="$base_prompt"'\[\033[33m\]$(__git_ps1)\[\033[00m\]'
 fi
