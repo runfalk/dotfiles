@@ -1,0 +1,5 @@
+#!/bin/bash
+paq_nvim="${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/pack/paqs/start/paq-nvim
+if [ ! -f "$paq_nvim" ]; then
+    git clone --depth=1 https://github.com/savq/paq-nvim.git $paq_nvim
+fi
