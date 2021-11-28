@@ -14,9 +14,14 @@ require "paq-nvim" {
     "nvim-lua/lsp_extensions.nvim";
 
     -- Auto complete (with LSP support)
-    "nvim-lua/completion-nvim";
-    "steelsojka/completion-buffers";
-    "nvim-treesitter/completion-treesitter";
+    "hrsh7th/cmp-nvim-lsp";
+    "hrsh7th/cmp-buffer";
+    "hrsh7th/cmp-path";
+    "hrsh7th/cmp-cmdline";
+    "hrsh7th/nvim-cmp";
+
+    "L3MON4D3/LuaSnip";
+    "saadparwaiz1/cmp_luasnip";
 
     -- Easy motion like
     "ggandor/lightspeed.nvim";
@@ -91,27 +96,71 @@ vim.cmd([[autocmd FileType javascript set colorcolumn=100]])
 vim.cmd([[autocmd FileType python set colorcolumn=80,88]])
 vim.cmd([[autocmd FileType rust set colorcolumn=100]])
 
--- Configure autocomplete
-vim.g.completion_auto_change_source = true
-vim.g.completion_chain_complete_list = {
-  default = {
-    default = {
-      {complete_items = {"lsp", "buffer", "ts"}},
-    },
-    string = {
-      {mode = "file"},  -- use ins-complete "files" (search ins-compl in completion-nvim help)
-    },
-  },
-}
-vim.o.completeopt="menuone,noinsert,noselect"
-vim.cmd([[autocmd BufEnter * lua require"completion".on_attach()]])
-
 -- Disable most of multiple cursors since we're only interested in sublime style ctrl+d
 vim.g.VM_default_mappings = 0
 vim.g.VM_maps = {
     ["Find Under"] = "<C-d>",
     ["Find Subword Under"] = "<C-d>",
 }
+
+-- Configure autocomplete
+vim.o.completeopt="menu,menuone,noselect"
+local cmp = require "cmp"
+cmp.setup({
+    snippet = {
+        expand = function(args)
+            require("luasnip").lsp_expand(args.body)
+        end,
+    },
+    mapping = {
+        ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+        }),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'buffer' },
+    }),
+})
+
+-- Autocomplete for search
+cmp.setup.cmdline('/', {
+    sources = {
+        { name = 'buffer' }
+    }
+})
+
+-- Configure language servers
+local capabilities = require('cmp_nvim_lsp').update_capabilities(
+    vim.lsp.protocol.make_client_capabilities()
+)
+
+local nvim_lsp = require "lspconfig"
+local on_attach = function(client)
+    require'completion'.on_attach(client)
+end
+
+-- Rust analyzer configuration
+nvim_lsp.rust_analyzer.setup({
+    on_attach = on_attach,
+    capabilities = capabilities,
+    settings = {
+        ["rust-analyzer"] = {
+            assist = {
+                importGranularity = "module",
+                importPrefix = "by_self",
+            },
+            cargo = {
+                loadOutDirsFromCheck = true
+            },
+            procMacro = {
+                enable = true
+            },
+        }
+    }
+})
 
 -- Keyboard mappings below here
 vim.g.mapleader = " "
