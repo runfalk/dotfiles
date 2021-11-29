@@ -17,3 +17,5 @@ To install a package just execute ``install.py`` in the root directory:
 .. code-block::
 
    $ ./install.py bash git rust
+
+For Neovim to work you need to run ``:PaqInstall`` at first launch.
