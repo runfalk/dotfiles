@@ -1,3 +1,0 @@
-#!/bin/bash
-# Python history
-export PYTHONSTARTUP=$HOME/.pythonstartup.py

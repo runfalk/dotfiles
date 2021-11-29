@@ -1,8 +1,0 @@
-#!/bin/bash
-# Add pip user bin directory to PATH on macOS. On Linux executables are put in
-# ~/.local/bin/ which is already added in .bashrc
-if [[ $(uname) == "Darwin" && -d "$HOME/Library/Python/" ]]; then
-	for pyversion in $(ls -1 "$HOME/Library/Python/"); do
-		PATH="$PATH:$HOME/Library/Python/$pyversion/bin"
-	done
-fi
