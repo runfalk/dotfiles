@@ -103,6 +103,17 @@ vim.g.VM_maps = {
     ["Find Subword Under"] = "<C-d>",
 }
 
+-- Setup Telescope (fuzzy finder)
+require("telescope").setup({
+    defaults = {
+        mappings = {
+            i = {
+                ["<esc>"] = require("telescope.actions").close,
+            },
+        },
+    },
+})
+
 -- Configure hop (EasyMotion like)
 require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
 
