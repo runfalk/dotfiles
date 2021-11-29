@@ -24,7 +24,7 @@ require "paq-nvim" {
     "saadparwaiz1/cmp_luasnip";
 
     -- Easy motion like
-    "ggandor/lightspeed.nvim";
+    "phaazon/hop.nvim";
 
     -- Gruvbox color scheme with treesitter support
     "rktjmp/lush.nvim";
@@ -102,6 +102,9 @@ vim.g.VM_maps = {
     ["Find Under"] = "<C-d>",
     ["Find Subword Under"] = "<C-d>",
 }
+
+-- Configure hop (EasyMotion like)
+require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
 
 -- Configure autocomplete
 vim.o.completeopt="menu,menuone,noselect"
@@ -198,6 +201,11 @@ map("n", "gd", "<cmd>lua require 'telescope.builtin'.lsp_definitions()<CR>")
 map("n", "gi", "<cmd>lua require 'telescope.builtin'.lsp_implementations()<CR>")
 map("n", "gr", "<cmd>lua require 'telescope.builtin'.lsp_references()<CR>")
 map("n", "<leader><space>", "<cmd>lua vim.lsp.buf.hover()<CR>")
+
+-- Hop/EasyMotion
+map("n", "s", "<cmd>lua require('hop').hint_char1({ direction = require('hop.hint').HintDirection.AFTER_CURSOR })<cr>")
+map("n", "S", "<cmd>lua require('hop').hint_char1({ direction = require('hop.hint').HintDirection.BEFORE_CURSOR })<cr>")
+map("n", "gw", "<cmd>lua require('hop').hint_words()<cr>")
 
 -- Language server refactoring
 map("n", "<leader>rn", "<cmd>lua vim.lsp.buf.rename()<CR>")
