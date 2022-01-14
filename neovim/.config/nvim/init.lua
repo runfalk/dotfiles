@@ -1,6 +1,6 @@
 -- Setup plugins (remember trailing semi-colon)
 -- (Use :PaqInstall or :PaqUpdate)
-require "paq-nvim" {
+require "paq" {
     -- Let Paq manage itself
     "savq/paq-nvim";
 
