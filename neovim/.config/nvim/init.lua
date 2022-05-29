@@ -5,7 +5,7 @@ require "paq" {
     "savq/paq-nvim";
 
     -- Syntax highlighting
-    {"nvim-treesitter/nvim-treesitter", run=vim.fn["TSUpdate"]};
+    {"nvim-treesitter/nvim-treesitter"};
 
     -- LSP support
     "neovim/nvim-lspconfig";
@@ -152,13 +152,9 @@ local capabilities = require('cmp_nvim_lsp').update_capabilities(
 )
 
 local nvim_lsp = require "lspconfig"
-local on_attach = function(client)
-    require'completion'.on_attach(client)
-end
 
 -- Rust analyzer configuration
 nvim_lsp.rust_analyzer.setup({
-    on_attach = on_attach,
     capabilities = capabilities,
     settings = {
         ["rust-analyzer"] = {
