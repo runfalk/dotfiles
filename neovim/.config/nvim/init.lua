@@ -204,7 +204,8 @@ map("n", "<leader>q", ":Bwipeout<CR>")
 map("n", "<leader>s", "<cmd>lua require 'telescope.builtin'.buffers()<CR>")
 map("n", "<leader>d", "<cmd>lua require 'telescope.builtin'.live_grep()<CR>")
 map("n", "<leader>f", "<cmd>lua require 'telescope.builtin'.find_files()<CR>")
-map("n", "<leader>g", "<cmd>lua require 'telescope.builtin'.git_files()<CR>")
+map("n", "<leader>g", "<cmd>lua require 'telescope.builtin'.git_files({ show_untracked = false })<CR>")
+map("n", "<leader>l", "<cmd>lua require 'telescope.builtin'.grep_string()<CR>")
 
 -- Language server bindings
 map("n", "gd", "<cmd>lua require 'telescope.builtin'.lsp_definitions()<CR>")
