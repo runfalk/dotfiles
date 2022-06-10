@@ -79,7 +79,10 @@ vim.o.inccommand = "nosplit"
 
 -- Enable treesitter for all major languages
 local ts = require "nvim-treesitter.configs"
-ts.setup {ensure_installed = "maintained", highlight = {enable = true}}
+ts.setup {
+    ensure_installed = "all",
+    highlight = {enable = true},
+}
 
 vim.o.background = "dark" -- or "light" for light mode
 vim.cmd([[colorscheme gruvbox]])
