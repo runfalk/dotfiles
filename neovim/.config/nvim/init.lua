@@ -142,13 +142,45 @@ cmp.setup({
             }),
             {'i'}
         ),
-        ['<CR>'] = cmp.mapping({
-            i = cmp.mapping.confirm({
-                behavior = cmp.ConfirmBehavior.Replace,
-                select = false,
+
+        -- Don't override arrow keys in command mode since they are far more
+        -- useful with their defaults
+        ['<C-Down>'] = cmp.mapping(
+            cmp.mapping.select_next_item({
+                behavior = cmp.SelectBehavior.Select,
             }),
-            c = function(fallback)
-                if cmp.visible() then
+            {'c'}
+        ),
+        ['<C-Up>'] = cmp.mapping(
+            cmp.mapping.select_prev_item({
+                behavior = cmp.SelectBehavior.Select,
+            }),
+            {'c'}
+        ),
+
+        -- Use escape to cancel the auto complete without exiting the current
+        -- mode if a value was selected
+        ['<Esc>'] = cmp.mapping({
+            i = function(fallback)
+                if cmp.visible() and cmp.get_selected_entry() then
+                    cmp.close()
+                else
+                    fallback()
+                end
+            end,
+            i = function(fallback)
+                if cmp.visible() and cmp.get_selected_entry() then
+                    cmp.close()
+                else
+                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-c>', true, true, true), 'n', true)
+                end
+            end,
+        }),
+
+        -- Autocomplete on enter if a value was selected
+        ['<CR>'] = cmp.mapping(
+            function(fallback)
+                if cmp.visible() and cmp.get_selected_entry() then
                     cmp.confirm({
                         behavior = cmp.ConfirmBehavior.Replace,
                         select = false,
@@ -156,8 +188,9 @@ cmp.setup({
                 else
                     fallback()
                 end
-            end
-        }),
+            end,
+            {"i", "c"}
+        ),
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
@@ -170,6 +203,13 @@ cmp.setup.cmdline('/', {
     sources = {
         { name = 'buffer' }
     }
+})
+
+-- Autocomplete for commands
+cmp.setup.cmdline(':', {
+  sources = {
+    { name = 'cmdline' }
+  }
 })
 
 -- Configure language servers
@@ -229,6 +269,7 @@ map("n", "<leader>d", "<cmd>lua require 'telescope.builtin'.live_grep()<CR>")
 map("n", "<leader>f", "<cmd>lua require 'telescope.builtin'.find_files()<CR>")
 map("n", "<leader>g", "<cmd>lua require 'telescope.builtin'.git_files({ show_untracked = false })<CR>")
 map("n", "<leader>l", "<cmd>lua require 'telescope.builtin'.grep_string()<CR>")
+map("n", "<leader>p", "<cmd>lua require 'telescope.builtin'.treesitter()<CR>")
 
 -- Language server bindings
 map("n", "gd", "<cmd>lua require 'telescope.builtin'.lsp_definitions()<CR>")
