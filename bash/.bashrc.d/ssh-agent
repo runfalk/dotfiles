@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Start an ssh-agent if we are in an SSH session
+if [ -n "$SSH_CLIENT" ]; then
+    # Try to re-use an existing ssh-agent socket
+    if [ ! -S "$SSH_AUTH_SOCK" -a -f ~/.ssh/ssh-agent.env ]; then
+        export SSH_AUTH_SOCK="$(cat ~/.ssh/ssh-agent.env)"
+    fi
+
+    # If cached agent socket is invalid, start a new one
+    if [ ! -S "$SSH_AUTH_SOCK" ]; then
+        eval "$(ssh-agent)" > /dev/null
+
+        # Cache the newly created socket
+        echo "$SSH_AUTH_SOCK" > ~/.ssh/ssh-agent.env
+        chmod 600 ~/.ssh/ssh-agent.env
+    fi
+fi
