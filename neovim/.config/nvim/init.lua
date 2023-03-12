@@ -24,7 +24,9 @@ require "paq" {
     "saadparwaiz1/cmp_luasnip";
 
     -- Easy motion like
-    "phaazon/hop.nvim";
+    -- "phaazon/hop.nvim";
+    -- Temporary override until hop from empty lines are fixed
+    {"aznhe21/hop.nvim", branch = "fix-some-bugs"};
 
     -- Gruvbox color scheme with treesitter support
     "rktjmp/lush.nvim";
