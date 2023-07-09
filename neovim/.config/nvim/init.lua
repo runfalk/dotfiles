@@ -195,8 +195,8 @@ cmp.setup({
         ),
     },
     sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'buffer' },
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
     }),
 })
 
@@ -209,14 +209,26 @@ cmp.setup.cmdline('/', {
 
 -- Autocomplete for commands
 cmp.setup.cmdline(':', {
-  sources = {
-    { name = 'cmdline' }
-  }
+    sources = {
+        { name = 'cmdline' },
+    },
 })
 
 -- Configure language servers
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local nvim_lsp = require "lspconfig"
+
+-- Enable inline diagnostics
+vim.diagnostic.config({
+   virtual_text = {
+        -- Skip HINT level
+        severity = { min = vim.diagnostic.severity.INFO },
+   },
+   signs = {
+        -- Skip HINT level
+        severity = { min = vim.diagnostic.severity.INFO },
+   },
+})
 
 -- Rust analyzer configuration
 nvim_lsp.rust_analyzer.setup({
@@ -235,6 +247,11 @@ nvim_lsp.rust_analyzer.setup({
             },
         }
     }
+})
+
+-- Pyright python language server support
+nvim_lsp.pyright.setup({
+    capabilities = capabilities,
 })
 
 -- Keyboard mappings below here
