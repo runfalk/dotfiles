@@ -231,28 +231,32 @@ vim.diagnostic.config({
 })
 
 -- Rust analyzer configuration
-nvim_lsp.rust_analyzer.setup({
-    capabilities = capabilities,
-    settings = {
-        ["rust-analyzer"] = {
-            assist = {
-                importGranularity = "module",
-                importPrefix = "by_self",
-            },
-            cargo = {
-                loadOutDirsFromCheck = true
-            },
-            procMacro = {
-                enable = true
-            },
+if vim.fn.executable("rust-analyzer") == 1 then
+    nvim_lsp.rust_analyzer.setup({
+        capabilities = capabilities,
+        settings = {
+            ["rust-analyzer"] = {
+                assist = {
+                    importGranularity = "module",
+                    importPrefix = "by_self",
+                },
+                cargo = {
+                    loadOutDirsFromCheck = true
+                },
+                procMacro = {
+                    enable = true
+                },
+            }
         }
-    }
-})
+    })
+end
 
 -- Pyright python language server support
-nvim_lsp.pyright.setup({
-    capabilities = capabilities,
-})
+if vim.fn.executable("pyright") == 1 then
+    nvim_lsp.pyright.setup({
+        capabilities = capabilities,
+    })
+end
 
 -- Keyboard mappings below here
 vim.g.mapleader = " "
