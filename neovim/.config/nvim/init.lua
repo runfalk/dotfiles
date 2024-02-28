@@ -38,15 +38,20 @@ require "paq" {
     -- Allow closing a buffer without messing up the window layout
     "famiu/bufdelete.nvim";
 
+    -- Required by nvim-telescope and typescript-tools
+    "nvim-lua/plenary.nvim";
+
     -- Fuzzy finder
     "nvim-lua/popup.nvim";
-    "nvim-lua/plenary.nvim";
     "nvim-telescope/telescope.nvim";
 
     -- Multiple cursors support
     "mg979/vim-visual-multi";
 
     "editorconfig/editorconfig-vim";
+
+    -- TypeScript language server support
+    "pmizio/typescript-tools.nvim";
 }
 
 vim.o.mouse = "a"
@@ -257,6 +262,9 @@ if vim.fn.executable("pyright") == 1 then
         capabilities = capabilities,
     })
 end
+
+-- TypeScript LSP support
+require("typescript-tools").setup {}
 
 -- Keyboard mappings below here
 vim.g.mapleader = " "
