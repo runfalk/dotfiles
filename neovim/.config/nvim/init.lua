@@ -13,6 +13,9 @@ require "paq" {
     -- Extensions for LSP (like variable types in Rust)
     "nvim-lua/lsp_extensions.nvim";
 
+    -- Git blame support
+    "FabijanZulj/blame.nvim";
+
     -- Auto complete (with LSP support)
     "hrsh7th/cmp-nvim-lsp";
     "hrsh7th/cmp-buffer";
@@ -24,9 +27,7 @@ require "paq" {
     "saadparwaiz1/cmp_luasnip";
 
     -- Easy motion like
-    -- "phaazon/hop.nvim";
-    -- Temporary override until hop from empty lines are fixed
-    {"aznhe21/hop.nvim", branch = "fix-some-bugs"};
+    {"smoka7/hop.nvim"};
 
     -- Gruvbox color scheme with treesitter support
     "rktjmp/lush.nvim";
@@ -123,6 +124,39 @@ require("telescope").setup({
         },
     },
 })
+
+-- Configure blame
+require("blame").setup({
+    date_format = "%Y-%m-%d",
+    format_fn = function(line_porcelain, config, idx)
+        local hash = string.sub(line_porcelain.hash, 0, 7)
+        local is_commited = hash ~= "0000000"
+        if is_commited then
+            local formatted_date = os.date(
+                config.date_format,
+                line_porcelain.committer_time
+            )
+            return {
+                idx = idx,
+                values = {
+                    { textValue = line_porcelain.author, hl = "Comment" },
+                    { textValue = formatted_date, hl = hash },
+                    { textValue = hash, hl = hash },
+                },
+                format = "%s %s %s",
+            }
+        else
+            return {
+                idx = idx,
+                values = {
+                    { textValue = "Not committed", hl = "Comment" },
+                },
+                format = "%s",
+            }
+        end
+    end
+})
+
 
 -- Configure hop (EasyMotion like)
 require("hop").setup({ keys = "etovxqpdygfblzhckisuran" })
@@ -304,6 +338,9 @@ map("n", "gd", "<cmd>lua require 'telescope.builtin'.lsp_definitions()<CR>")
 map("n", "gi", "<cmd>lua require 'telescope.builtin'.lsp_implementations()<CR>")
 map("n", "gr", "<cmd>lua require 'telescope.builtin'.lsp_references()<CR>")
 map("n", "<leader><space>", "<cmd>lua vim.lsp.buf.hover()<CR>")
+
+-- Git Blame
+map("n", "<leader>gb", "<cmd>BlameToggle virtual<cr>")
 
 -- Hop/EasyMotion
 map("n", "s", "<cmd>lua require('hop').hint_char1({ direction = require('hop.hint').HintDirection.AFTER_CURSOR })<cr>")
