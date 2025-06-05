@@ -1,6 +1,19 @@
 #!/bin/bash
 # Prompt customization
-base_prompt='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]'
+__prompt_exit_status() {
+    if [ $? -eq 0 ]; then
+        echo -n $1
+    else
+        echo -n $2
+    fi
+}
+
+html_to_ansi_fg() {
+    local r=$((0x${1:0:2}))
+    local g=$((0x${1:2:2}))
+    local b=$((0x${1:4:2}))
+    echo -n "\[\e[38;2;${r};${g};${b}m\]"
+}
 
 # Add Git branch information if available
 git_prompt_sh="/usr/share/git-core/contrib/completion/git-prompt.sh"
@@ -8,9 +21,43 @@ if [ "$(type -t __git_ps1)" != "function" -a -f "$git_prompt_sh" ]; then
     # On fedora we need to load this ourselves
     source "$git_prompt_sh"
 fi
-if [ "$(type -t __git_ps1)" = "function" ]; then
-	base_prompt="$base_prompt"'\[\033[33m\]$(__git_ps1)\[\033[00m\]'
-fi
 
-# Add trailing $ to prompt
-PS1="$base_prompt"'\$ '
+make_prompt() {
+    # Borrowed from https://github.com/morhetz/gruvbox
+    local reset='\[\e[0m\]'
+    local bold='\[\e[1m\]'
+    local br="${reset}${bold}"
+    local red=$(html_to_ansi_fg fb4934)
+    local green=$(html_to_ansi_fg b8bb26)
+    local yellow=$(html_to_ansi_fg fabd2f)
+    local blue=$(html_to_ansi_fg 83a598)
+    local purple=$(html_to_ansi_fg d3869b)
+    local aqua=$(html_to_ansi_fg 8ec07c)
+    local orange=$(html_to_ansi_fg fe8019)
+    local fg4=$(html_to_ansi_fg a89984)
+    local fg3=$(html_to_ansi_fg bdae93)
+    local fg2=$(html_to_ansi_fg d4c4a1)
+    local fg1=$(html_to_ansi_fg ebdbb2)
+    local fg0=$(html_to_ansi_fg fbf1c7)
+
+    # Override hostname for some systems where it's read only
+    case $(hostname) in
+        LT52626)
+            local host="lilith"
+            ;;
+        *)
+            local host='\h'
+            ;;
+    esac
+
+    local base_prompt="${br}${green}\u@${host}${br}${fg0}:${blue}\w${reset}"
+    if [ "$(type -t __git_ps1)" = "function" ]; then
+        base_prompt="${base_prompt}${yellow}\$(__git_ps1)${reset}"
+    fi
+    echo -n "${base_prompt}\$(__prompt_exit_status '${fg0}' '${red}')\$${reset} "
+}
+
+PS1="$(make_prompt)"
+
+unset -f make_prompt
+unset -f html_to_ansi_fg
