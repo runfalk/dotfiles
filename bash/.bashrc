@@ -3,16 +3,6 @@ if [ $(uname) == "Linux" ]; then
 	alias ls="ls --color=auto"
 	alias grep="grep --color=auto"
 
-	# # Make sure SSH agent is available on shell startup
-	# if [ -z "$SSH_AUTH_SOCK" ] ; then
-	# 	eval $(ssh-agent -s)
-	# fi
-
-	# # Alias ssh to add keys when connecting to a server
-	# if ssh-add -l >/dev/null; then
-	# 	alias ssh='ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh'
-	# fi
-
 	# Add auto-complete support
 	if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 		# Ubuntu
@@ -37,6 +27,11 @@ elif [ $(uname) == "Darwin" ]; then
 			. $(brew --prefix)/etc/bash_completion
 		fi
 	fi
+fi
+
+# Replace ls with eza if it's installed
+if hash eza 2> /dev/null; then
+    alias ls="eza"
 fi
 
 # Add ~/.local/bin to patch since it is a common installation location
